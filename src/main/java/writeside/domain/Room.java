@@ -2,20 +2,37 @@ package writeside.domain;
 ;
 import writeside.domain.Booking.BookingNo;
 
+import java.time.LocalDate;
 import java.util.List;
 
 public class Room {
-    private String roomNumber;
+    private RoomNumber roomNumber;
     private int capacity;
-    private List<BookingNo> bookings;
+    private List<Booking> bookings;
 
-    public Room(String roomNumber, int capacity, List<BookingNo> bookings) {
+    public Room(RoomNumber roomNumber, int capacity) {
         this.roomNumber = roomNumber;
         this.capacity = capacity;
-        this.bookings = bookings;
     }
 
-    public String getRoomNumber() {
+    public boolean isBookable(LocalDate startDate, LocalDate endDate) {
+        for(Booking b : bookings) {
+            if(startDate.compareTo(b.getStartDate()) * endDate.compareTo(b.getEndDate()) >= 0) { return false; }
+        }
+        return true;
+    }
+
+    public void bookRoom(Booking booking) {
+        this.bookings.forEach(b -> {
+            if(b.getBookingNo().equals(booking.getBookingNo())) {
+                throw new IllegalArgumentException("Booking has already booked the room");
+            }
+        });
+        if(!this.roomNumber.equals(booking.getRoomNumber())) { throw new IllegalArgumentException("Booking is not for this room"); }
+        this.bookings.add(booking);
+    }
+
+    public RoomNumber getRoomNumber() {
         return roomNumber;
     }
 
@@ -23,7 +40,7 @@ public class Room {
         return capacity;
     }
 
-    public List<BookingNo> getBooking() {
+    public List<Booking> getBookings() {
         return bookings;
     }
 }

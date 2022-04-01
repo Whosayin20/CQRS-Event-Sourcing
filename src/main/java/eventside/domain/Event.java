@@ -1,17 +1,13 @@
 package eventside.domain;
 
-public class Event {
+import java.util.UUID;
 
-    private String customer;
+public abstract class Event {
+    private UUID id = UUID.randomUUID();
     private long timestamp;
-    private String content;
 
-    public String getCustomer() {
-        return customer;
-    }
-
-    public void setCustomer(String customer) {
-        this.customer = customer;
+    public UUID getId() {
+        return id;
     }
 
     public long getTimestamp() {
@@ -22,20 +18,8 @@ public class Event {
         this.timestamp = timestamp;
     }
 
-    public String getContent() {
-        return content;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
-    }
-
     @Override
     public String toString() {
-        return "Event{" +
-                "customer='" + customer + '\'' +
-                ", timestamp=" + timestamp +
-                ", content='" + content + '\'' +
-                '}';
+        return "Event{id=" + id + ", timestamp=" + timestamp + "type=" + getClass().getSimpleName() + '}';
     }
 }

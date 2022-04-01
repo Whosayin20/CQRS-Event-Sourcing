@@ -1,5 +1,6 @@
 package at.fhv.lab1reference;
 
+import eventside.domain.BookingCreatedEvent;
 import eventside.domain.Event;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -25,9 +26,7 @@ public class WriteSide {
     @Bean
     public CommandLineRunner run() throws Exception {
         return args -> {
-            Event event = new Event();
-            event.setContent("This is the content!");
-            event.setCustomer("Customer1");
+            Event event = new BookingCreatedEvent();
             event.setTimestamp(System.currentTimeMillis());
             System.out.println("Result: " + publisher.publishEvent(event));
         };
