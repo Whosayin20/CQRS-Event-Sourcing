@@ -1,37 +1,41 @@
 package writeside.command;
 
-import writeside.domain.Booking.BookingNo;
-import writeside.domain.RoomNumber;
-
 import java.time.LocalDate;
+import java.util.List;
 
 public class BookRoomCommand {
-    private BookingNo bookingNo;
-    private LocalDate startDate;
-    private LocalDate endDate;
+    private LocalDate arrivalDate;
+    private LocalDate departureDate;
     private String guestName;
     private int nrOfGuests;
-    private RoomNumber roomNumber;
+    private List<String> roomNumbers;
 
-    public BookRoomCommand(BookingNo bookingNo, LocalDate startDate, LocalDate endDate, String guestName, int nrOfGuests, RoomNumber roomNumber) {
-        this.bookingNo = bookingNo;
-        this.startDate = startDate;
-        this.endDate = endDate;
+    private BookRoomCommand(LocalDate arrivalDate, LocalDate departureDate, String guestName, int nrOfGuests, List<String> roomNumbers) {
+        this.arrivalDate = arrivalDate;
+        this.departureDate = departureDate;
         this.guestName = guestName;
         this.nrOfGuests = nrOfGuests;
-        this.roomNumber = roomNumber;
+        this.roomNumbers = roomNumbers;
     }
 
-    public BookingNo getBookingNo(){
-        return bookingNo;
+    //Validating Simple Input Data
+    public static BookRoomCommand create(LocalDate arrivalDate, LocalDate departureDate, String guestName, int nrOfGuests, List<String> roomNumber) {
+        try {
+            if(arrivalDate.isAfter(departureDate) || departureDate.isBefore(arrivalDate)) {
+                throw new IllegalArgumentException("Arrival date must be after Departure date");
+            }
+        }catch (IllegalArgumentException e) {
+            System.out.println(e.getMessage());
+        }
+        return new BookRoomCommand(arrivalDate, departureDate, guestName, nrOfGuests, roomNumber);
     }
 
-    public LocalDate getStartDate() {
-        return startDate;
+    public LocalDate getArrivalDate() {
+        return arrivalDate;
     }
 
-    public LocalDate getEndDate() {
-        return endDate;
+    public LocalDate getDepartureDate() {
+        return departureDate;
     }
 
     public String getGuestName() {
@@ -42,7 +46,7 @@ public class BookRoomCommand {
         return nrOfGuests;
     }
 
-    public RoomNumber getRoomNumber() {
-        return roomNumber;
+    public List<String> getRoomNumbers() {
+        return roomNumbers;
     }
 }

@@ -1,9 +1,13 @@
-package writeside.domain;
+package writeside.domain.Room;
 
 import java.util.Objects;
 
 public class RoomNumber {
     private String number;
+
+    public RoomNumber(String number) {
+        this.number = number;
+    }
 
     public String getNumber() {
         return number;

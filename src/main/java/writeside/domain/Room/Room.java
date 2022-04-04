@@ -1,4 +1,4 @@
-package writeside.domain;
+package writeside.domain.Room;
 ;
 import writeside.domain.Booking.BookingNo;
 
@@ -17,10 +17,11 @@ public class Room {
 
     public boolean isBookable(LocalDate startDate, LocalDate endDate) {
         for(Booking b : bookings) {
-            if(startDate.compareTo(b.getStartDate()) * endDate.compareTo(b.getEndDate()) >= 0) { return false; }
+            if(startDate.compareTo(b.getArrivalDate()) * endDate.compareTo(b.getDepartureDate()) >= 0) { return false; }
         }
         return true;
     }
+
 
     public void bookRoom(Booking booking) {
         this.bookings.forEach(b -> {
@@ -28,7 +29,9 @@ public class Room {
                 throw new IllegalArgumentException("Booking has already booked the room");
             }
         });
-        if(!this.roomNumber.equals(booking.getRoomNumber())) { throw new IllegalArgumentException("Booking is not for this room"); }
+
+        //if(!this.roomNumber.equals(booking.getRoom().getRoomNumber())) { throw new IllegalArgumentException("Booking is not for this room"); }
+
         this.bookings.add(booking);
     }
 

@@ -1,7 +1,7 @@
 package writeside;
 
-import eventside.domain.Event;
-import org.springframework.http.HttpMethod;
+import eventside.event.BookingCreatedEvent;
+import eventside.event.Event;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -15,11 +15,12 @@ public class EventPublisher {
     public EventPublisher() {
     }
 
-    public Boolean publishEvent(Event event) {
-        System.out.println(event);
+
+    public Boolean publishBookingCreatedEvent(BookingCreatedEvent event) {
+        System.out.println("publishing: " + event);
         return localApiClient
                 .post()
-                .uri("/event/")
+                .uri("/createBooking/")
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
                 .body(Mono.just(event),Event.class)
