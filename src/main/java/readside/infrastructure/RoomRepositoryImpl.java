@@ -19,7 +19,6 @@ public class RoomRepositoryImpl implements FreeRoomRepository {
         this.roomDTOS.add(new RoomDTO("105", 5));
     }
 
-    //
     @Override
     public List<RoomDTO> getFreeRooms(LocalDate from, LocalDate to, int nrOfGuests) {
         List<RoomDTO> freeRooms = new ArrayList<>();
@@ -52,9 +51,3 @@ public class RoomRepositoryImpl implements FreeRoomRepository {
         this.roomDTOS.add(room);
     }
 }
-
-//return this.roomDTOS.stream()
-//        .filter(freeRoomDTO -> to.isAfter(freeRoomDTO.getOccupiedFrom()))
-//        .filter(freeRoomDTO ->  freeRoomDTO.getOccupiedTo().isAfter(from))
-//        .filter(freeRoomDTO -> freeRoomDTO.getCapacity() >= nrOfGuests)
-//        .collect(Collectors.toList());
