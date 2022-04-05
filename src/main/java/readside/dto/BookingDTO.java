@@ -1,11 +1,8 @@
 package readside.dto;
 
-import writeside.domain.Booking.BookingState;
-import writeside.domain.Guest;
-import writeside.domain.Room.RoomNumber;
-
 import java.time.LocalDate;
-import java.util.List;
+import java.util.Arrays;
+import java.util.Objects;
 
 public class BookingDTO {
     private String bookingNo;
@@ -46,5 +43,20 @@ public class BookingDTO {
 
     public int getNrOfGuests() {
         return nrOfGuests;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        BookingDTO that = (BookingDTO) o;
+        return nrOfGuests == that.nrOfGuests && Objects.equals(bookingNo, that.bookingNo) && Objects.equals(arrivalDate, that.arrivalDate) && Objects.equals(departureDate, that.departureDate) && Objects.equals(guestName, that.guestName) && Arrays.equals(roomNumbers, that.roomNumbers);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = Objects.hash(bookingNo, arrivalDate, departureDate, guestName, nrOfGuests);
+        result = 31 * result + Arrays.hashCode(roomNumbers);
+        return result;
     }
 }

@@ -11,5 +11,7 @@ public interface BookingRepository {
 
     List<BookingDTO> getBookings(LocalDate arrivalDate, LocalDate departureDate);
 
+    BookingDTO bookingByNo(String bookingNo);
 
+    void cancelBooking(BookingDTO booking);
 }

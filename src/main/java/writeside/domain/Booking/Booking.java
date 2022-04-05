@@ -4,6 +4,7 @@ import writeside.domain.Guest;
 import writeside.domain.Room.RoomNumber;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Objects;
 
 
 public class Booking {
@@ -61,5 +62,22 @@ public class Booking {
 
     public int getNrOfGuests() {
         return nrOfGuests;
+    }
+
+    public void setState(BookingState state) {
+        this.state = state;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Booking booking = (Booking) o;
+        return nrOfGuests == booking.nrOfGuests && Objects.equals(bookingNo, booking.bookingNo) && Objects.equals(arrivalDate, booking.arrivalDate) && Objects.equals(departureDate, booking.departureDate) && Objects.equals(guest, booking.guest) && Objects.equals(rooms, booking.rooms) && state == booking.state;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(bookingNo, arrivalDate, departureDate, guest, rooms, state, nrOfGuests);
     }
 }

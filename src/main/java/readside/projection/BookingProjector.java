@@ -1,11 +1,12 @@
 package readside.projection;
 
+import eventside.event.BookingCancelledEvent;
 import eventside.event.BookingCreatedEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
 import readside.dto.BookingDTO;
-import readside.dto.FreeRoomDTO;
+import readside.dto.RoomDTO;
 import readside.infrastructure.repositories.BookingRepository;
 import readside.infrastructure.repositories.FreeRoomRepository;
 
@@ -38,29 +39,35 @@ public class BookingProjector implements Projection {
 
 
     //Projection: what is the current state derived from the event stream?
-    public void projectBookingCreatedEvent(BookingCreatedEvent bookingCreatedEvent) {
-        //TODO: finish projection
-
+    public void projectBookingCreatedEvent(BookingCreatedEvent event) {
+        //Update of the rooms occupied dates, that have been booked
+        event.getRoomNumbers()
+                .forEach(roomNo -> this.freeRoomRepository
+                .getRoomByNo(roomNo)
+                .addRoomOccupancy(event.getArrivalDate(), event.getDepartureDate()));
 
         BookingDTO bookingDTO = new BookingDTO(
-                bookingCreatedEvent.getBookingNo(),
-                bookingCreatedEvent.getArrivalDate(),
-                bookingCreatedEvent.getDepartureDate(),
-                bookingCreatedEvent.getGuestName(),
-                bookingCreatedEvent.getRoomNumber().toArray(new String[0]), //Convert list into Array
-                bookingCreatedEvent.getNrOfGuests()
+                event.getBookingNo(),
+                event.getArrivalDate(),
+                event.getDepartureDate(),
+                event.getGuestName(),
+                event.getRoomNumbers().toArray(new String[0]), //Convert list into Array
+                event.getNrOfGuests()
         );
 
-
-
-
         this.bookingRepository.store(bookingDTO);
-
     }
 
-    public void projectBookingCancelledEvent(BookingCreatedEvent bookingCreatedEvent) {
+    public void projectBookingCancelledEvent(BookingCancelledEvent event) {
 
+        BookingDTO booking = this.bookingRepository.bookingByNo(event.getBookingNo());
 
+        for(int i = 0; i < booking.getRoomNumbers().length; i++) {
+            RoomDTO roomDTO = this.freeRoomRepository.getRoomByNo(booking.getRoomNumbers()[i]);
+            roomDTO.cancelRoomOccupancy(booking.getArrivalDate(), booking.getDepartureDate());
+            this.freeRoomRepository.updateOccupancy(roomDTO);
+        }
+
+        this.bookingRepository.cancelBooking(booking);
     }
-
 }

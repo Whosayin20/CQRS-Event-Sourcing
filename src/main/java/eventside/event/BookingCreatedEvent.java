@@ -8,16 +8,16 @@ public class BookingCreatedEvent extends Event {
     private LocalDate arrivalDate;
     private LocalDate departureDate;
     private String guestName;
-    private List<String> roomNumber;
+    private List<String> roomNumbers;
     private int nrOfGuests;
 
-    public BookingCreatedEvent(long timestamp, String bookingNo, LocalDate arrivalDate, LocalDate departureDate, String guestName, List<String> roomNumber, int nrOfGuests) {
+    public BookingCreatedEvent(long timestamp, String bookingNo, LocalDate arrivalDate, LocalDate departureDate, String guestName, List<String> roomNumbers, int nrOfGuests) {
         super(timestamp);
         this.bookingNo = bookingNo;
         this.arrivalDate = arrivalDate;
         this.departureDate = departureDate;
         this.guestName = guestName;
-        this.roomNumber = roomNumber;
+        this.roomNumbers = roomNumbers;
         this.nrOfGuests = nrOfGuests;
     }
 
@@ -37,8 +37,8 @@ public class BookingCreatedEvent extends Event {
         return guestName;
     }
 
-    public List<String> getRoomNumber() {
-        return roomNumber;
+    public List<String> getRoomNumbers() {
+        return roomNumbers;
     }
 
     public int getNrOfGuests() {

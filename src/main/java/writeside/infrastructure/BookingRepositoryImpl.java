@@ -4,14 +4,11 @@ import org.springframework.stereotype.Repository;
 import writeside.domain.Booking.Booking;
 import writeside.domain.Booking.BookingNo;
 import writeside.domain.repositories.BookingRepository;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Repository
 public class BookingRepositoryImpl implements BookingRepository {
-    private List<Booking> bookingList = new ArrayList<>();
+    private Set<Booking> bookingList = new HashSet<>();
 
     public void store(Booking booking) {
         this.bookingList.add(booking);

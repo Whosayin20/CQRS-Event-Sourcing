@@ -19,9 +19,9 @@ public class RoomRepositoryImpl implements RoomRepository {
         this.roomList.add(new Room(new RoomNumber("100"), 2));
         this.roomList.add(new Room(new RoomNumber("101"), 2));
         this.roomList.add(new Room(new RoomNumber("102"), 2));
-        this.roomList.add(new Room(new RoomNumber("103"), 2));
-        this.roomList.add(new Room(new RoomNumber("104"), 2));
-        this.roomList.add(new Room(new RoomNumber("105"), 2));
+        this.roomList.add(new Room(new RoomNumber("103"), 3));
+        this.roomList.add(new Room(new RoomNumber("104"), 4));
+        this.roomList.add(new Room(new RoomNumber("105"), 5));
     }
 
     public Optional<Room> findRoomByNo(String roomNumber) {

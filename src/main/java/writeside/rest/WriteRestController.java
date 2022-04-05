@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import writeside.application.BookingService;
 import writeside.command.BookRoomCommand;
+import writeside.command.CancelBookingCommand;
+
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
@@ -28,5 +30,11 @@ public class WriteRestController {
         LocalDate departureDate = LocalDate.parse(departureDateStr, DateTimeFormatter.ISO_DATE);
 
         return bookingService.bookRoom(BookRoomCommand.create(arrivalDate, departureDate, guestName, nrOfGuests, Arrays.stream(roomNumbers).collect(Collectors.toList())));
+    }
+
+
+    @PostMapping(value = "/cancelBooking")
+    public boolean cancelBooking(@RequestParam String bookingNo) {
+        return bookingService.cancelBooking(new CancelBookingCommand(bookingNo));
     }
 }

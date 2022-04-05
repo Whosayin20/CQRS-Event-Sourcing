@@ -1,8 +1,15 @@
 package readside.infrastructure.repositories;
 
-import readside.dto.FreeRoomDTO;
+import readside.dto.RoomDTO;
+
+import java.time.LocalDate;
+import java.util.List;
 
 public interface FreeRoomRepository {
 
-    void store(FreeRoomDTO freeRoomDTO);
+    List<RoomDTO> getFreeRooms(LocalDate from, LocalDate to, int nrOfGuests);
+
+    RoomDTO getRoomByNo(String roomNumber);
+
+    void updateOccupancy(RoomDTO room);
 }
