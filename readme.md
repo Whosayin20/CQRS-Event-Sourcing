@@ -38,26 +38,26 @@ In order to get the free rooms or bookings within a timespan you can also use th
 
 ###<ins>Documented results:</ins>
 
-######Book Room:
+<h3>Book Room:</h3>
 ![](src/main/resources/doc/img1.png)
 
-#####Get Bookings:
+<h3>Get Bookings:</h3>
 ![](src/main/resources/doc/img2.png)
 
-######Result:
+<h3>Result:</h3>
 ![](src/main/resources/doc/img3.png)
 
-#####Get Free Rooms:
+<h3>Get Free Rooms:</h3>
 ![](src/main/resources/doc/img4.png)
 
-#####Result:
+<h3>Result:</h3>
 ![](src/main/resources/doc/img5.png)
 
-#####Cancel Booking of Max Müller:
+<h3>Cancel Booking of Max Müller:</h3>
 ![](src/main/resources/doc/img6.png)
 
-#####Result of Bookings (Max Müller was cancelled):
+<h3>Result of Bookings (Max Müller was cancelled):</h3>
 ![](src/main/resources/doc/img7.png)
 
-#####Get Free Rooms (Rooms of Max Müller now available):
+<h3>Get Free Rooms (Rooms of Max Müller now available):</h3>
 ![](src/main/resources/doc/img8.png)
