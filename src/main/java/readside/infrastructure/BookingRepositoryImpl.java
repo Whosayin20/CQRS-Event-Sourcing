@@ -7,6 +7,7 @@ import readside.infrastructure.repositories.BookingRepository;
 import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -23,17 +24,12 @@ public class BookingRepositoryImpl implements BookingRepository {
     public List<BookingDTO> getBookings(LocalDate arrivalDate, LocalDate departureDate) {
         return this.bookingDTOs.stream()
                 .filter(bookingDTO -> departureDate.isAfter(bookingDTO.getArrivalDate()))
-                .filter(bookingDTO ->  bookingDTO.getDepartureDate().isAfter(arrivalDate))
+                .filter(bookingDTO -> bookingDTO.getDepartureDate().isAfter(arrivalDate))
                 .collect(Collectors.toList());
     }
 
-    public BookingDTO bookingByNo(String bookingNo) {
-        for(BookingDTO booking : bookingDTOs){
-            if(booking.getBookingNo().equals(bookingNo)){
-                return booking;
-            }
-        }
-        return null;
+    public Optional<BookingDTO> bookingByNo(String bookingNo) {
+        return bookingDTOs.stream().filter(bookingDTO -> bookingDTO.getBookingNo().equals(bookingNo)).findFirst();
     }
 
     public void cancelBooking(BookingDTO booking) {

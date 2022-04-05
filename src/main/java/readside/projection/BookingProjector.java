@@ -5,10 +5,13 @@ import eventside.event.BookingCreatedEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
+import org.webjars.NotFoundException;
 import readside.dto.BookingDTO;
 import readside.dto.RoomDTO;
 import readside.infrastructure.repositories.BookingRepository;
 import readside.infrastructure.repositories.FreeRoomRepository;
+
+import java.util.Optional;
 
 @Component
 public class BookingProjector implements Projection {
@@ -43,8 +46,8 @@ public class BookingProjector implements Projection {
         //Update of the rooms occupied dates, that have been booked
         event.getRoomNumbers()
                 .forEach(roomNo -> this.freeRoomRepository
-                .getRoomByNo(roomNo)
-                .addRoomOccupancy(event.getArrivalDate(), event.getDepartureDate()));
+                        .getRoomByNo(roomNo)
+                        .addRoomOccupancy(event.getArrivalDate(), event.getDepartureDate()));
 
         BookingDTO bookingDTO = new BookingDTO(
                 event.getBookingNo(),
@@ -59,15 +62,19 @@ public class BookingProjector implements Projection {
     }
 
     public void projectBookingCancelledEvent(BookingCancelledEvent event) {
+        try {
+            BookingDTO booking = this.bookingRepository.bookingByNo(event.getBookingNo()).orElseThrow(() -> new NotFoundException("Booking not found"));
 
-        BookingDTO booking = this.bookingRepository.bookingByNo(event.getBookingNo());
+            for (int i = 0; i < booking.getRoomNumbers().length; i++) {
+                RoomDTO roomDTO = this.freeRoomRepository.getRoomByNo(booking.getRoomNumbers()[i]);
+                roomDTO.cancelRoomOccupancy(booking.getArrivalDate(), booking.getDepartureDate());
+                this.freeRoomRepository.updateOccupancy(roomDTO);
+            }
 
-        for(int i = 0; i < booking.getRoomNumbers().length; i++) {
-            RoomDTO roomDTO = this.freeRoomRepository.getRoomByNo(booking.getRoomNumbers()[i]);
-            roomDTO.cancelRoomOccupancy(booking.getArrivalDate(), booking.getDepartureDate());
-            this.freeRoomRepository.updateOccupancy(roomDTO);
+            this.bookingRepository.cancelBooking(booking);
+
+        } catch (NotFoundException e) {
+            System.out.println(e.getMessage());
         }
-
-        this.bookingRepository.cancelBooking(booking);
     }
 }

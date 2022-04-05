@@ -58,7 +58,6 @@ public class BookingServiceImpl implements BookingService {
                     bookRoomCommand.getRoomNumbers().stream().map(RoomNumber::new).collect(Collectors.toList()),
                     bookRoomCommand.getNrOfGuests()
             );
-            System.out.println(booking.getBookingNo().getBookingNo());
         } catch (IllegalArgumentException e) {
             System.out.println(e.getMessage());
             return false;
@@ -84,19 +83,25 @@ public class BookingServiceImpl implements BookingService {
 
     @Override
     public boolean cancelBooking(CancelBookingCommand cancelBookingCommand) {
-        //Get Booking from repository
-        Booking booking = this.bookingRepository.bookingByNo(new BookingNo(cancelBookingCommand.getBookingNo())).orElseThrow(() -> new NotFoundException("Booking not found"));
-        //Change Booking State
-        booking.setState(BookingState.CANCELLED);
-        //Update booking in repository
-        this.bookingRepository.store(booking);
-        //Create BookingCancelledEvent
-        BookingCancelledEvent bookingCancelledEvent = new BookingCancelledEvent(
-            System.currentTimeMillis(),
-            booking.getBookingNo().getBookingNo()
-        );
-        //Publish Event
-        this.eventPublisher.publishCancelBooking(bookingCancelledEvent);
+        try {
+            //Get Booking from repository
+            Booking booking = this.bookingRepository.bookingByNo(new BookingNo(cancelBookingCommand.getBookingNo())).orElseThrow(() -> new NotFoundException("Booking not found"));
+
+            //Change Booking State
+            booking.setState(BookingState.CANCELLED);
+            //Update booking in repository
+            this.bookingRepository.store(booking);
+            //Create BookingCancelledEvent
+            BookingCancelledEvent bookingCancelledEvent = new BookingCancelledEvent(
+                    System.currentTimeMillis(),
+                    booking.getBookingNo().getBookingNo()
+            );
+            //Publish Event
+            this.eventPublisher.publishCancelBookingEvent(bookingCancelledEvent);
+        } catch (NotFoundException e) {
+            System.out.println(e.getMessage());
+            return false;
+        }
         return true;
     }
 }

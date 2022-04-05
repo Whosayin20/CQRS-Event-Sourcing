@@ -36,6 +36,7 @@ In order to create or cancel a booking use the SwaggerUI under http://localhost:
 
 In order to get the free rooms or bookings within a timespan you can also use the SwaggerUI under: http://localhost:8082/swagger-ui/index.html
 
+
 ###<ins>Documented results:</ins>
 
 ###Book Room: <br/>

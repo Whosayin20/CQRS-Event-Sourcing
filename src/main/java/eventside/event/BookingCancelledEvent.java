@@ -1,7 +1,5 @@
 package eventside.event;
 
-import writeside.domain.Booking.BookingNo;
-
 public class BookingCancelledEvent extends Event {
     private String bookingNo;
 

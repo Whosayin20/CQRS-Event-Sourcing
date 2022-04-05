@@ -7,7 +7,6 @@ import reactor.core.publisher.Mono;
 
 import java.util.Objects;
 
-
 public class Subscriber {
     private final String HOST;
     private final String URI;

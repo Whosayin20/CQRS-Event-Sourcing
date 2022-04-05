@@ -1,7 +1,5 @@
 package writeside.command;
 
-import writeside.domain.Booking.BookingNo;
-
 public class CancelBookingCommand {
     private String bookingNo;
 

@@ -30,7 +30,7 @@ public class EventPublisher {
                 .block();
     }
 
-    public Boolean publishCancelBooking(BookingCancelledEvent event){
+    public Boolean publishCancelBookingEvent(BookingCancelledEvent event){
         System.out.println("publishing: " + event);
         return localApiClient
                 .post()
