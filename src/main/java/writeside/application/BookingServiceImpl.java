@@ -1,5 +1,6 @@
 package writeside.application;
 
+import eventside.event.BookingCancelledEvent;
 import eventside.event.BookingCreatedEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -9,6 +10,7 @@ import writeside.command.BookRoomCommand;
 import writeside.command.CancelBookingCommand;
 import writeside.domain.Booking.Booking;
 import writeside.domain.Booking.BookingNo;
+import writeside.domain.Booking.BookingState;
 import writeside.domain.Room.RoomNumber;
 import writeside.domain.repositories.BookingRepository;
 import writeside.domain.repositories.RoomRepository;

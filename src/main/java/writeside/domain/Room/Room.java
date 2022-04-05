@@ -1,6 +1,6 @@
 package writeside.domain.Room;
 ;
-import writeside.domain.Booking.BookingNo;
+import writeside.domain.Booking.Booking;
 
 import java.time.LocalDate;
 import java.util.List;

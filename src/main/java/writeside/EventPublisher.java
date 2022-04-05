@@ -1,5 +1,6 @@
 package writeside;
 
+import eventside.event.BookingCancelledEvent;
 import eventside.event.BookingCreatedEvent;
 import eventside.event.Event;
 import org.springframework.http.MediaType;
@@ -21,6 +22,19 @@ public class EventPublisher {
         return localApiClient
                 .post()
                 .uri("/createBooking/")
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .body(Mono.just(event),Event.class)
+                .retrieve()
+                .bodyToMono(Boolean.class)
+                .block();
+    }
+
+    public Boolean publishCancelBooking(BookingCancelledEvent event){
+        System.out.println("publishing: " + event);
+        return localApiClient
+                .post()
+                .uri("/cancelBooking/")
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
                 .body(Mono.just(event),Event.class)

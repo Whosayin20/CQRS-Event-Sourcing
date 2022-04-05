@@ -26,4 +26,17 @@ public class BookingRepositoryImpl implements BookingRepository {
                 .filter(bookingDTO ->  bookingDTO.getDepartureDate().isAfter(arrivalDate))
                 .collect(Collectors.toList());
     }
+
+    public BookingDTO bookingByNo(String bookingNo) {
+        for(BookingDTO booking : bookingDTOs){
+            if(booking.getBookingNo().equals(bookingNo)){
+                return booking;
+            }
+        }
+        return null;
+    }
+
+    public void cancelBooking(BookingDTO booking) {
+        this.bookingDTOs.remove(booking);
+    }
 }

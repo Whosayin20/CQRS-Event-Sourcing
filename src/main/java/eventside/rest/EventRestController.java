@@ -1,6 +1,7 @@
 package eventside.rest;
 
 import eventside.EventRepository;
+import eventside.event.BookingCancelledEvent;
 import eventside.event.BookingCreatedEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -13,6 +14,13 @@ public class EventRestController {
 
     @PostMapping(value = "/createBooking", consumes = "application/json", produces = "application/json")
     public boolean bookingCreated(@RequestBody BookingCreatedEvent event) {
+        System.out.println("Event received: " + event);
+        repository.processEvent(event);
+        return true;
+    }
+
+    @PostMapping(value = "/cancelBooking", consumes = "application/json", produces = "application/json")
+    public boolean bookingCancelled(@RequestBody BookingCancelledEvent event) {
         System.out.println("Event received: " + event);
         repository.processEvent(event);
         return true;
