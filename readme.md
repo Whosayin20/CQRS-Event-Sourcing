@@ -13,7 +13,18 @@ also seems reasonable to separate the database behind the API into two databases
 reading - for example, by strongly normalising one and denormalizing the other. In this way, good integrity and consistency can be 
 guaranteed when writing, but at the same time high efficiency and performance can be achieved when reading.
 
-In this Lab exercise ...
+In this lab exercise a simple reservation system for a hotel was created. The CQRS pattern was used. The following should be implemented:
+- Commands: Book room and cancel booking
+- Queries: View bookings and free rooms in a time period
+
+Working with CQRS offers several advantages: 
+- Different scalability
+- improved security through separate roles
+- good divisibility of the development of the individual components
+- possible combination with eventsourcing.
+
+However, it should be mentioned that the implementation of a CQRS application is relatively costly and it must be weighed up whether such a development is profitable.
+
 
 ###<ins>Write Side:</ins>
 The write side basically has the same structure as in the 4-layered architecture. The customer's input 
